@@ -1,2 +1,2 @@
 # crystal
-Crystal calculations
+Proof of concept crystal algebra calculations
