@@ -2,7 +2,7 @@ from numpy import prod
 
 import argparse
 
-parser=argparse.ArgumentParser(description='Clrystal calculations for A_n', prog='sage cl.sage')
+parser=argparse.ArgumentParser(description='Crystal calculations for A_n', prog='sage crystal_A.sage')
 parser.add_argument('degree', metavar='deg', type=int, nargs=1,
         help='rank of A_n algebra')
 
