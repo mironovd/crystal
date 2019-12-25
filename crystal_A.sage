@@ -3,13 +3,45 @@ from numpy import prod
 import argparse
 
 parser=argparse.ArgumentParser(description='Clrystal calculations for A_n', prog='sage cl.sage')
-parser.add_argument('degree', metavar='deg', type=int, nargs=1,
+parser.add_argument('degree', metavar='deg', type=int,
         help='rank of A_n algebra')
+parser.add_argument('-i', '--inversions', metavar='inversions', dest='inversions',type=int, default=-1,
+        help='process only decompositions with set number of inversions')
+parser.add_argument('-n', '--num', metavar='randdec', dest='num',action='store', type=int, default=0,
+        help='process only N random decompositions')
 
 args = parser.parse_args()
+#print(args.num)
 
+def mergeSortInversions(arr):
+    if len(arr) == 1:
+        return arr, 0
+    else:
+        a = arr[:len(arr)//2]
+        b = arr[len(arr)//2:]
+        a, ai = mergeSortInversions(a)
+        b, bi = mergeSortInversions(b)
+        c = []
+        i = 0
+        j = 0
+        inversions = 0 + ai + bi
+    while i < len(a) and j < len(b):
+        if a[i] <= b[j]:
+            c.append(a[i])
+            i += 1
+        else:
+            c.append(b[j])
+            j += 1
+            inversions += (len(a)-i)
+    c += a[i:]
+    c += b[j:]
+    return c, inversions
 
-type=["A",args.degree[0]]
+def Inversions(arr):
+    b,c=mergeSortInversions(arr)
+    return c
+
+type=["A",args.degree]
 #js=3
 
 def pad(some_list, target_len):
@@ -32,6 +64,16 @@ C=CartanMatrix(type)
 N=len(w)
 
 ww=W.long_element().reduced_words()
+ww.sort()
+
+if args.inversions>=0:
+    ww=[ws[0] for ws in [[ws,Inversions(ws)] for ws in ww] if ws[1]==args.inversions]
+    
+if args.num>0:
+    shuffle(ww)
+    ww=ww[0:args.num-1]
+
+
 
 R=LaurentPolynomialRing(QQ,'t',N+1)
 
@@ -104,10 +146,14 @@ def Step(n,wc):
 
 #print(St)
 
+qt=1
+
 for wx in ww:
+    print("\n==== Case ",qt," ====\n")
+    print("Long element decomposition: ",wx,"\n")
+    qt+=1
     for js in I:
         print("==== Begin ====")
-        print("Long element decomposition: ",wx)
         print("Simple root: ",js)
         start=t[[p for p in [[i+1,x] for i,x in enumerate(roots_from_reduced_word(wx,type)) if len(x.monomials())==1] if p[1]==al[js]][0][0]]
         xx= true
