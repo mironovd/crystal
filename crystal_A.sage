@@ -3,11 +3,11 @@ from numpy import prod
 import argparse
 
 parser=argparse.ArgumentParser(description='Crystal calculations for A_n', prog='sage crystal_A.sage')
-parser.add_argument('degree', metavar='deg', type=int,
+parser.add_argument('rank', metavar='rank', type=int,
         help='rank of A_n algebra')
 parser.add_argument('-i', '--inversions', metavar='inversions', dest='inversions',type=int, default=-1,
         help='process only decompositions with set number of inversions')
-parser.add_argument('-n', '--num', metavar='randdec', dest='num',action='store', type=int, default=0,
+parser.add_argument('-n', '--num', metavar='N', dest='num',action='store', type=int, default=0,
         help='process only N random decompositions')
 
 args = parser.parse_args()
@@ -41,7 +41,7 @@ def Inversions(arr):
     b,c=mergeSortInversions(arr)
     return c
 
-type=["A",args.degree]
+type=["A",args.rank]
 #js=3
 
 def pad(some_list, target_len):
