@@ -3,15 +3,26 @@ from numpy import prod
 import argparse
 
 parser=argparse.ArgumentParser(description='Crystal calculations for A_n', prog='sage crystal_A.sage')
-parser.add_argument('rank', metavar='rank', type=int,
-        help='rank of A_n algebra')
-parser.add_argument('-i', '--inversions', metavar='inversions', dest='inversions',type=int, default=-1,
+
+required = parser.add_argument_group('required arguments')
+optional = parser.add_argument_group('optional arguments')
+
+required.add_argument('-t', '--type', metavar='type', dest='type', default="",
+        help='type of algebra', required=True)
+required.add_argument('-r', '--rank', metavar='rank', dest='rank', type=int, default="",
+        help='rank of algebra',  required=True)
+optional.add_argument('-i', '--inversions', metavar='inversions', dest='inversions',type=int, default=-1,
         help='process only decompositions with set number of inversions')
-parser.add_argument('-n', '--num', metavar='N', dest='num',action='store', type=int, default=0,
+optional.add_argument('-n', '--num', metavar='N', dest='num',action='store', type=int, default=0,
         help='process only N random decompositions')
+
+parser.add_argument('word',type=int,metavar='word',default=[],nargs='*',
+        help='start calculations from word (needs to be reduced word corresponding to longest element of Weyl group)')
 
 args = parser.parse_args()
 #print(args.num)
+
+print(args.word)
 
 def mergeSortInversions(arr):
     if len(arr) == 1:
@@ -41,7 +52,50 @@ def Inversions(arr):
     b,c=mergeSortInversions(arr)
     return c
 
-type=["A",args.rank]
+
+
+
+def BraidOrbit(word,rels):
+ def pattern_match (L, i, X, l):
+  for ind in range(l):
+   if L[i+ind] != X[ind]:
+    return False
+  return True
+  
+ l=len(word)
+ words = set(tuple(word))
+ test_words = [ tuple(word) ]
+
+ rels = rels + [ [b,a] for a,b in rels ]
+ rels = [ [tuple(a), tuple(b), len(a) ]  for a,b in rels ]
+
+ loop_ind = 0
+ list_len = 1
+ yield word
+ while loop_ind < list_len:
+  test_word = test_words[loop_ind]
+  loop_ind += 1
+  for rel in rels:
+   left = rel[0]
+   right = rel[1]
+   rel_l = rel[2]
+   for i in range(l-rel_l+1):
+    if pattern_match(test_word, i, left, rel_l):
+     new_word=test_word[:i]+right+test_word[i+rel_l:]
+     if new_word not in words:
+      words.add(new_word)
+      test_words.append(new_word)
+      list_len+=1
+      yield new_word
+ return
+
+def coxeter_braid_orbit(coxeter_group, word):
+ word=list(word)
+ braid_rels=coxeter_group.braid_relations()
+ return BraidOrbit(word, braid_rels)
+
+
+type=[args.type,args.rank]
 #js=3
 
 def pad(some_list, target_len):
@@ -57,22 +111,40 @@ def roots_from_reduced_word(w, ct):
 W=WeylGroup(type)
 al=RootSystem(type).root_lattice().simple_roots()
 I=[i.leading_support() for i in al]
-w=W.long_element(as_word=True)
+w=[]
+if len(args.word)>0:
+ w=args.word
+else:
+ w=W.long_element(as_word=True)
+
 
 #print(w)
 C=CartanMatrix(type)
 N=len(w)
 
-ww=W.long_element().reduced_words()
-ww.sort()
+#ww=W.long_element().reduced_words()
+#ww.sort()
 
-if args.inversions>=0:
-    ww=[ws[0] for ws in [[ws,Inversions(ws)] for ws in ww] if ws[1]==args.inversions]
-    
-if args.num>0:
-    shuffle(ww)
-    ww=ww[0:args.num-1]
+#if args.inversions>=0:
+#    ww=[ws[0] for ws in [[ws,Inversions(ws)] for ws in ww] if ws[1]==args.inversions]
+#    
+#if args.num>0:
+#    shuffle(ww)
+#    ww=ww[0:args.num-1]
 
+def generator(wg,word):
+ gen=coxeter_braid_orbit(wg,word)
+ n=0
+ for el in gen:
+  y=True
+  if args.inversions>=0 and Inversions(el)!=args.inversions:
+   y=False
+  if args.num>0 and n>=args.num:
+   break
+  if y:
+   n+=1
+   yield el
+ return
 
 
 R=LaurentPolynomialRing(QQ,'t',N+1)
@@ -148,13 +220,16 @@ def Step(n,wc):
 
 qt=1
 
-for wx in ww:
+for wx in generator(W,w):
     print("\n==== Case ",qt," ====\n")
     print("Long element decomposition: ",wx,"\n")
     qt+=1
     for js in I:
         print("==== Begin ====")
         print("Simple root: ",js)
+        if len([q for q in C[js-1] if q!=0])>3:
+             print("not implemented yet")
+             continue
         start=t[[p for p in [[i+1,x] for i,x in enumerate(roots_from_reduced_word(wx,type)) if len(x.monomials())==1] if p[1]==al[js]][0][0]]
         xx= true
         st = 0
