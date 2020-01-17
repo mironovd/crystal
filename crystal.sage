@@ -227,9 +227,9 @@ for wx in generator(W,w):
     for js in I:
         print("==== Begin ====")
         print("Simple root: ",js)
-        if len([q for q in C[js-1] if q!=0])>3:
-             print("not implemented yet")
-             continue
+#        if len([q for q in C[js-1] if q!=0])>3:
+#             print("not implemented yet")
+#             continue
         start=t[[p for p in [[i+1,x] for i,x in enumerate(roots_from_reduced_word(wx,type)) if len(x.monomials())==1] if p[1]==al[js]][0][0]]
         xx= true
         st = 0
