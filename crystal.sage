@@ -245,5 +245,6 @@ for wx in generator(W,w):
             st+=1
 
         print(str(St))
+        print("Number of monomials: ",sum([len(z) for z in St]))
         print(str(Gs))
         print("==== End ====")
