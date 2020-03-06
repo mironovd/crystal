@@ -193,6 +193,7 @@ def Ainv(w,j,k):
 
 def mutate_node(w,node):
     poss= [[x[0],x[1][0]] for x in [ [l,[k for k in RR(w,node,l) if not (plus(w,l,k) in RR(w,node,l))]] for l in I] if len(x[1])>0]
+#    print(poss)
     return [[x[0], node*Ainv(w,x[0],x[1]) ]  for x in poss]
 
 
