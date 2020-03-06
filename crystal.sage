@@ -241,7 +241,7 @@ def mutate_node(w,node):
                 tt=2
                 while pplus(w,l,k,tt)<oo:
                     if m[pplus(w,l,k,tt)]==-1:
-                        reuslt.append([l, node*Ainv(w,l,pplus(w,l,k,tt-1))])
+                        result.append([l, node*Ainv(w,l,pplus(w,l,k,tt-1))])
                     tt+=1
             elif m[k] == 2 and plus(w,l,k)<oo and m[plus(w,l,k)]==0:
                 result.append([l, node*Ainv(w,l,k) ])
