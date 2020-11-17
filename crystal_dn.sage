@@ -51,7 +51,9 @@ I=[i.leading_support() for i in al]
 IN=I 
 if args.root>0 :
      IN=[args.root]
-IN=[kk for kk in IN if kk<args.rank]
+# can't work for last 2 roots
+IN=[kk for kk in IN if kk<(args.rank-1)]
+
 w=[]
 if len(args.word)>0:
  w=args.word
@@ -71,8 +73,6 @@ qt=1
 
 def f(w,r,k,x,t):
      i=w[k-1]
-#     print(t[k])
-#     print(r,k,i,t[k])
      res=[]
      if i<r:
          res=tuple([0]+[x[j] for j in range(1,(i-1)+1)]+
@@ -89,16 +89,8 @@ def f(w,r,k,x,t):
 def v(w,r,j,t):
     N=len(w)
     z=tuple([1 if jj==j else 0 for jj in range(0,2*r+1)])
-#    print(z)
     for kk in reversed(range(1,N+1)):
         z=f(w,r,kk,z,t)
-#        print(z)
-#    print(z)
-#    print(laurent_polynomial(z[8],R))
-#    RZ=LaurentPolynomialRing(QQ,'x',2*r+1)
-#    x=list(var(RZ.variable_names()))
-#    for kk in reversed(range(1,N+1)):
-#        print(kk,f(w,r,kk,tuple(x),t))
     return z
     
 
@@ -111,7 +103,6 @@ for wx in braid_orbit.braid_orbit_generator(W,w,args.num,args.inversions):
      print("Long element decomposition: ",wx,"\n")
      qt+=1
      vm=vmat(wx,args.rank,t)
-#     print(vm)
      for js in IN:
          print("==== Begin ====")
          print("Simple root: ",js)
