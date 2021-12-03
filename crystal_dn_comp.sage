@@ -14,7 +14,7 @@ sage_import('crystal_op')
 sage_import('crystal_step')
 sage_import('crystal_generate')
 
-parser=argparse.ArgumentParser(description='Crystal calculations for D_n - comparison of combinatorial method and determinant method', prog='sage crystal_dn_comp.sage')
+parser=argparse.ArgumentParser(description='Crystal calculations for D_n', prog='sage crystal.sage')
 
 required = parser.add_argument_group('required arguments')
 optional = parser.add_argument_group('optional arguments')

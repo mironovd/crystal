@@ -77,6 +77,10 @@ flatten = lambda l: [item for sublist in l for item in sublist]
 
 uniq2d = lambda l : list(map(list, set(map(tuple, map(set, l)))))
 
+def is_badroot(C,j):
+#    len([q for q in C[j-1] if q!=0])>3
+    sum(C[j-1])<0
+
 
 for wx in braid_orbit.braid_orbit_generator(W,w,args.num,args.inversions):
      print("\n==== Case ",qt," ====\n")
@@ -87,7 +91,7 @@ for wx in braid_orbit.braid_orbit_generator(W,w,args.num,args.inversions):
          print("Simple root: ",js)
          jsbad = len([q for q in C[js-1] if q!=0])>3
          start=t[[p for p in [[i+1,x] for i,x in enumerate(crystal_op.roots_from_reduced_word(wx,type)) if len(x.monomials())==1] if p[1]==al[js]][0][0]]
-         mutation_results = [ (m[1],  crystal_generate.generate_crystal(I,C,wx,start,m[0],jsbad,t,False) )for m in mutation_methods ]
+         mutation_results = [ (m[1],  crystal_generate.generate_crystal(I,js,C,wx,start,m[0],is_badroot,t,False) )for m in mutation_methods ]
 #         print(mutation_results)
          
          if len(set([len(flatten(s[1][0])) for s in mutation_results]))>1:

@@ -52,7 +52,7 @@ IN=I
 if args.root>0 :
      IN=[args.root]
 # can't work for last 2 roots
-IN=[kk for kk in IN if kk<(args.rank)]
+IN=[kk for kk in IN if kk<=(args.rank)]
 
 w=[]
 if len(args.word)>0:

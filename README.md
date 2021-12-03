@@ -1,29 +1,39 @@
 # crystal
 Proof of concept crystal algebra calculations
 
+- crystal.sage - calculation of crystal half-potential 
+- crystal-compare.sage - comparison of half-potential calculation methods (can be used to batch compare 
+all words for given algebra type and rank)
+- crystal_[abcd]n.sage - calculation of crystal half-potential using determinant method (slow algorithm)
+- crystal_[abcd]n_comp.sage - comparison of combinatorial method half-potential calculation with determinant method
+- crystal_newton_poly.sage - calculation of Newton polytope for half-potential
 
 
-usage: sage crystal.sage [-h] -m mutation_method -t type -r rank [-k root] [-i inversions] [-n N] [word [word ...]]
+### USAGE
+    sage crystal.sage [-h] -m mutation_method -t type -r rank [-k root] [-i inversions] [-n N] [word [word ...]]
 
-positional arguments:
+    positional arguments:
 
-  word                  start calculations from word (needs to be reduced word corresponding to longest element of Weyl group)
+	word                  start calculations from word (needs to be reduced word corresponding to longest element of Weyl group)
 
-required arguments:
+    required arguments:
 
-  -m mutation_method, --method mutation_method 
-                        mutation method, one of: 20200916, 20201012, old
+	-m mutation_method, --method mutation_method 
+		mutation method, one of: 
+			new - mutation algorithm for A_n, B_n, C_n, D_n
+			old - simple mutation algorithm for A_n
                         
-  -t type, --type type  type of algebra
+	-t type, --type type  type of algebra
   
-  -r rank, --rank rank  rank of algebra
+	-r rank, --rank rank  rank of algebra
   
-  -k root, --root root  root of algebra
+	-k root, --root root  root of algebra
 
-optional arguments:
+    optional arguments:
 
-  -i inversions, --inversions inversions  
+	-i inversions, --inversions inversions  
                         process only decompositions with set number of inversions
                         
-  -n N, --num N         process only N random decompositions
+	-n N, --num N         process only N random decompositions
   
+

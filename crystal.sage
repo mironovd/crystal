@@ -75,6 +75,27 @@ def is_badroot(C,j):
 #    len([q for q in C[j-1] if q!=0])>3
     sum(C[j-1])<0
 
+def is_badroot_a(C,j):
+    if C.cartan_type()[0]=='A':
+       return False
+    if C.cartan_type()[0]=='G' or C.cartan_type()[0]=='F':
+       return False
+    if C.cartan_type()[0]=='B':
+       return not(j==C.cartan_type[1])
+    if C.cartan_type()[0]=='C':
+       return not(j==1)
+    if C.cartan_type()[0]=='D':
+       return not(j>=(C.cartan_type()[1]-1) or j==1)
+    if C.cartan_type()[0]=='E':
+       if C.cartan_type()[1]>=8:
+          return False
+       if C.cartan_type()[1] == 6:
+          return not(j==1 or j==6)
+       if C.cartan_type()[1] == 7:
+          return not(j==7)
+
+
+         
 for wx in braid_orbit.braid_orbit_generator(W,w,args.num,args.inversions):
      print("\n==== Case ",qt," ====\n")
      print("Long element decomposition: ",wx,"\n")
@@ -82,11 +103,14 @@ for wx in braid_orbit.braid_orbit_generator(W,w,args.num,args.inversions):
      for js in IN:
          print("==== Begin ====")
          print("Simple root: ",js)
-         jsbad = is_badroot(C,js)
+         #jsbad = is_badroot(C,js)
          start=t[[p for p in [[i+1,x] for i,x in enumerate(crystal_op.roots_from_reduced_word(wx,type)) if len(x.monomials())==1] if p[1]==al[js]][0][0]]
-         St,Gs = crystal_generate.generate_crystal(I,C,wx,start,mutate_method,jsbad,t,True)
-         print(str(St))
+         St,Gs,sinks = crystal_generate.generate_crystal(I,js,C,wx,start,mutate_method,is_badroot,t,True)
+#         print(str(St))
+         print(*St, sep='\n')
          print("Number of monomials: ",sum([len(z) for z in St]))
          print(str(Gs))
+         print("Sinks (",len(sinks),"):")
+         print(str(sinks))
          print("==== End ====")
 

@@ -53,3 +53,22 @@ def Ainv(C,w,j,k,t):
         tp=t[end]
     return (prod([ t[m]^(-C[w[m-1]-1][j-1])   for m in range(k+1,end) ]))/(t[k]*tp)
 
+
+def bn(C,w,j,t,node):
+    R=C.root_system()
+    P=R.weight_lattice()
+    h = P.simple_coroots()
+    La = P.fundamental_weights()
+    m = [node.degree(tt) for tt in t]
+    N=len(w)
+
+    b=[None for iiii in range(N+1)]
+    b[N]=m[N]+La[j].weyl_action([j]).scalar(h[w[N-1]])
+    for tt in range(N-1,0,-1):
+        b[tt]=m[tt]
+        b[tt]+=(La[j].weyl_action([j]).scalar(h[ w[tt-1] ]))
+        for ll in range(tt,N):
+            b[tt]-=(b[ll+1]*C[w[tt-1]-1][w[(ll+1)-1]-1])
+#            b[tt]-=b[ll+1]*C[w[(ll+1)-1]-1][w[tt-1]-1]
+
+    return b
