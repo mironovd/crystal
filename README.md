@@ -7,7 +7,7 @@ all words for given algebra type and rank)
 - crystal_[abcd]n.sage - calculation of crystal half-potential using determinant method (slow algorithm)
 - crystal_[abcd]n_comp.sage - comparison of combinatorial method half-potential calculation with determinant method
 - crystal_newton_poly.sage - calculation of Newton polytope for half-potential
-
+- crystal_GHKK_support.sage - calculation of X-cluster Gross-Hacking-Keel-Kontsevich potential support
 
 ### USAGE
     sage crystal.sage [-h] -m mutation_method -t type -r rank [-k root] [-i inversions] [-n N] [word [word ...]]
