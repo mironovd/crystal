@@ -14,7 +14,8 @@ all words for given algebra type and rank)
 
     positional arguments:
 
-	word                  start calculations from word (needs to be reduced word corresponding to longest element of Weyl group)
+	word                  start calculations from word 
+				(needs to be reduced word corresponding to longest element of Weyl group)
 
     required arguments:
 
