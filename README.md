@@ -4,8 +4,8 @@ Proof of concept crystal algebra calculations
 - crystal.sage - calculation of crystal half-potential 
 - crystal-compare.sage - comparison of half-potential calculation methods (can be used to batch compare 
 all words for given algebra type and rank)
-- crystal_[abcd]n.sage - calculation of crystal half-potential using determinant method (slow algorithm)
-- crystal_[abcd]n_comp.sage - comparison of combinatorial method half-potential calculation with determinant method
+- crystal_[bcd]n.sage - calculation of crystal half-potential using determinant method (slow algorithm)
+- crystal_[bcd]n_comp.sage - comparison of combinatorial method half-potential calculation with determinant method
 - crystal_newton_poly.sage - calculation of Newton polytope for half-potential
 - crystal_GHKK_support.sage - calculation of X-cluster Gross-Hacking-Keel-Kontsevich potential support
 
@@ -14,7 +14,8 @@ all words for given algebra type and rank)
 
     positional arguments:
 
-	word                  start calculations from word (needs to be reduced word corresponding to longest element of Weyl group)
+	word                  start calculations from word 
+				(needs to be reduced word corresponding to longest element of Weyl group)
 
     required arguments:
 
