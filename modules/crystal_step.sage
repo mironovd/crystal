@@ -6,13 +6,13 @@ sage_import('crystal_op')
 
 class Found(Exception): pass
 
-def Step(I,js,C,n,wc,mutate_node_func,St,Gs,badroot,t,accumulator,sinks):
+def Step(I,js,C,n,wc,mutate_node_func,St,Gs,badroot,t,accumulator,sinks,stats):
     St.append([])
     nodes=St[n]
     all_nodes = list(chain.from_iterable(St))
     all_nodes_set = Set([tuple([x.degree(tt) for tt in t]) for x in all_nodes])
     res=[]
-    new_nodes = [[node,mutate_node_func(I,js,C,wc,node,badroot,t,accumulator,sinks)] for node in nodes]
+    new_nodes = [[node,mutate_node_func(I,js,C,wc,node,badroot,t,accumulator,sinks,stats)] for node in nodes]
     res_set = Set([tuple([x.degree(tt) for tt in t]) for x in res])
     for r in new_nodes:
         node=r[0]

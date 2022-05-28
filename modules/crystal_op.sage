@@ -54,8 +54,42 @@ def Ainv(C,w,j,k,t):
     return (prod([ t[m]^(-C[w[m-1]-1][j-1])   for m in range(k+1,end) ]))/(t[k]*tp)
 
 
-def bn(C,w,j,t,node):
+def bn(C,ww,jj,t,node):
+
+
     R=C.root_system()
+
+    j=jj
+    w=ww
+
+    if R.cartan_type()[0]=='E' and R.cartan_type()[1]==6:
+        if j == 1 :
+            j = 6
+        elif j == 6 :
+            j = 1
+        elif j == 3 :
+            j = 5
+        elif j == 5 :
+            j = 3
+    
+
+    if  R.cartan_type()[0]=='A':
+        j = R.cartan_type()[1]-j+1
+    if  R.cartan_type()[0]=='D' and is_odd(R.cartan_type()[1]):
+        if j == R.cartan_type()[1] :
+            j = R.cartan_type()[1]-1
+        elif j == R.cartan_type()[1] - 1 :
+            j = R.cartan_type()[1]
+#    if R.cartan_type()[0]=='C':
+#        w=list(reversed(w))
+#        if j == R.cartan_type()[1]:
+#            j = R.cartan_type()[1]-1
+#        elif j == R.cartan_type()[1]-1:
+#            j = R.cartan_type()[1]
+#        j=R.cartan_type()[1]-j+1
+
+
+
     P=R.weight_lattice()
     h = P.simple_coroots()
     La = P.fundamental_weights()
@@ -68,7 +102,6 @@ def bn(C,w,j,t,node):
         b[tt]=m[tt]
         b[tt]+=(La[j].weyl_action([j]).scalar(h[ w[tt-1] ]))
         for ll in range(tt,N):
-            b[tt]-=(b[ll+1]*C[w[tt-1]-1][w[(ll+1)-1]-1])
-#            b[tt]-=b[ll+1]*C[w[(ll+1)-1]-1][w[tt-1]-1]
+            b[tt]-=b[ll+1]*C[w[(ll+1)-1]-1][w[tt-1]-1]
 
     return b

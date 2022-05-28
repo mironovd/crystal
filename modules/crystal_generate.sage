@@ -5,6 +5,7 @@ sage_import('crystal_step')
 def generate_crystal(I,js,C,wc,start,mutate_node_func,badroot,t,verbose):
     accumulator={}
     sinks=[]
+    stats={}
     st = 0
     xx=true
     St=[[start]]
@@ -12,11 +13,11 @@ def generate_crystal(I,js,C,wc,start,mutate_node_func,badroot,t,verbose):
     while xx:
         if verbose:
             print("===\n Step: ",str(st))
-        St,Gs = crystal_step.Step(I,js,C,st,wc,mutate_node_func,St,Gs,badroot,t,accumulator,sinks)
+        St,Gs = crystal_step.Step(I,js,C,st,wc,mutate_node_func,St,Gs,badroot,t,accumulator,sinks,stats)
         if verbose:
             print(St[st+1])
         if len(St[st+1])==0 or St[st+1]==[1]:
             xx=false
         st+=1
-    return St, Gs, sinks
+    return St, Gs, sinks, stats
 
