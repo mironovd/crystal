@@ -194,7 +194,8 @@ for wx in braid_orbit_method(W,w,args.num,args.inversions):
              print("Gross-Hacking-Keel-Kontsevich potential support: ", GVV.coordinates(bb))
              if len([j for j in GVV.coordinates(bb) if j<0])>0:
                 print("found negative GHKK support coordinate")
-             Y_start=product([Y[list(ee[i]).index(1)+1]^v for i,v in enumerate(GVV.coordinates(bb)) if v!=0])*Y[max(loc for loc, val in enumerate(wx) if val == start_wl)+1]
+             if args.verbose: print(Y[max(loc for loc, val in enumerate(wx) if val == js)+1])
+             Y_start=product([Y[list(ee[i]).index(1)+1]^v for i,v in enumerate(GVV.coordinates(bb)) if v!=0])*Y[max(loc for loc, val in enumerate(wx) if val == js)+1]
              if args.verbose: print(Y_start)
              YS={}
              YS[St[0][0]]=Y_start
