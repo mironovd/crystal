@@ -6,7 +6,7 @@ def braid_orbit_classes_generator(weyl_group,start_word,num,irrelevant):
     n=0
     for el in gen:
         n += 1
-        if num>0 and n>=num:
+        if num>0 and n>num:
             break
         yield el
     return
