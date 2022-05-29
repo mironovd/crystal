@@ -15,7 +15,7 @@ sage_import('crystal_generate')
 sage_import('braid_orbit_classes_walk')
 sage_import('polymake')
 
-parser=argparse.ArgumentParser(description='Crystal calculations for A_n', prog='sage crystal.sage')
+parser=argparse.ArgumentParser(description='Crystal calculations', prog='sage crystal_GHKK_support.sage')
 
 required = parser.add_argument_group('required arguments')
 optional = parser.add_argument_group('optional arguments')

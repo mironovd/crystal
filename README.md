@@ -9,7 +9,7 @@ all words for given algebra type and rank)
 ### USAGE
     usage: sage crystal_GHKK_support.sage [-h] -m mutation_method -t type -r rank [-k root] [-i inversions] [-n N] [-p] [-P] [-v] [word [word ...]]
 
-    Crystal calculations for A_n
+    Crystal calculations
 
     positional arguments:
         word                  start calculations from word 
