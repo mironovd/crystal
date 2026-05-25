@@ -3,7 +3,7 @@ sage_import('crystal_op')
 
 import numpy as np
 
-def mutate_node(I,js,C,w,node,badroot,t,accumulator,sinks,stats):
+def mutate_node(I,js,C,w,node,badroot,t,accumulator,sinks,stats,bi_first_neg_allow):
     
     if not ('type_two_mutation' in stats.keys()):
         stats['type_two_mutation']=[]
@@ -19,8 +19,14 @@ def mutate_node(I,js,C,w,node,badroot,t,accumulator,sinks,stats):
         b=crystal_op.bn(C,w,js,t,node)
         accumulator[node]=b
 
-#    print(b)
-    if len([kk for kk in b[1:] if kk < 0])>0:
+    print("---")
+    print("Working on monomial: ",node)
+    print("  B_i: ",b)
+    mm=1
+#    print(bi_first_neg_allow)
+#    if bi_first_neg_allow:
+#        mm=2
+    if len([kk for kk in b[mm:] if kk < 0])>0:
         print("[WARN] Found negative b_i", b,node)
     for l in I:
         for k in crystal_op.r(w,l):

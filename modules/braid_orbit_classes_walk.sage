@@ -5,10 +5,10 @@ def braid_orbit_classes_walk_generator(weyl_group,start_word,num,irrelevant):
     gen = braid_orbit_classes_walk(RootSystem(weyl_group.cartan_type()),start_word)
     n=0
     for el in gen:
-        n += 1
-        if num>0 and n>num:
-            break
         yield el
+        n += 1
+        if num>0 and n>=num:
+            break
     return
 
 def braid_orbit_classes_walk(root_system,start_word):

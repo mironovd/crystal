@@ -54,6 +54,33 @@ def Ainv(C,w,j,k,t):
     return (prod([ t[m]^(-C[w[m-1]-1][j-1])   for m in range(k+1,end) ]))/(t[k]*tp)
 
 
+def automorphism(C,jj):
+    R=C.root_system()
+
+    j=jj
+
+    if R.cartan_type()[0]=='E' and R.cartan_type()[1]==6:
+        if j == 1 :
+            j = 6
+        elif j == 6 :
+            j = 1
+        elif j == 3 :
+            j = 5
+        elif j == 5 :
+            j = 3
+    
+
+    if  R.cartan_type()[0]=='A':
+        j = R.cartan_type()[1]-j+1
+    if  R.cartan_type()[0]=='D' and is_odd(R.cartan_type()[1]):
+        if j == R.cartan_type()[1] :
+            j = R.cartan_type()[1]-1
+        elif j == R.cartan_type()[1] - 1 :
+            j = R.cartan_type()[1]
+
+    return j
+
+
 def bn(C,ww,jj,t,node):
 
 
@@ -96,6 +123,8 @@ def bn(C,ww,jj,t,node):
     m = [node.degree(tt) for tt in t]
     N=len(w)
 
+#    print(j)
+#    print(t)
     b=[None for iiii in range(N+1)]
     b[N]=m[N]+La[j].weyl_action([j]).scalar(h[w[N-1]])
     for tt in range(N-1,0,-1):

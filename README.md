@@ -5,6 +5,7 @@ Proof of concept crystal algebra calculations
 - crystal-compare.sage - comparison of half-potential calculation methods (can be used to batch compare 
 all words for given algebra type and rank)
 - crystal_GHKK_support.sage - calculation of X-cluster Gross-Hacking-Keel-Kontsevich potential support and checking if Newton polytopes are void
+- crystal_DM.sage - algorithm for computation i-trails and generalized minors on Bruhat cells
 
 ### USAGE
     usage: sage crystal_GHKK_support.sage [-h] -m mutation_method -t type -r rank [-k root] [-i inversions] [-n N] [-p] [-P] [-v] [word [word ...]]
@@ -35,3 +36,4 @@ all words for given algebra type and rank)
         -v, --verbose         use Polymake to check Newton polytopes
 
 
+For crystal_DM.sage consider same options without Polymake.
